@@ -21,10 +21,13 @@ class BookingReport:
                 deal_name = deal.find_element(By.CSS_SELECTOR, 'div[data-testid="listing-card-title"]').get_attribute('innerHTML').strip()
                 deal_desc = deal.find_element(By.CSS_SELECTOR, 'span[data-testid="listing-card-name"]').get_attribute('innerHTML').strip()
                 deal_price = deal.find_element(By.CSS_SELECTOR, 'span[class="_11jcbg2"]').get_attribute('innerHTML').strip().replace('&nbsp;', ' ')
-                outer_span_rating = deal.find_element(By.CSS_SELECTOR, 'span.r4a59j5')
-                deal_rating = outer_span_rating.find_element(By.CSS_SELECTOR, 'span[aria-hidden="true"]').get_attribute('innerHTML').strip()
-                collection.append([deal_name, deal_desc, deal_price, deal_rating])
-
+                outer_span_rating = deal.find_element(By.CSS_SELECTOR, 'div[class="t1a9j9y7 atm_da_1ko3t4y atm_dm_kb7nvz atm_fg_h9n0ih dir dir-ltr"]')
+                try:
+                    deal_rating = outer_span_rating.find_element(By.CSS_SELECTOR, 'span[aria-hidden="true"]').get_attribute('innerHTML').strip()
+                    collection.append([deal_name, deal_desc, deal_price, deal_rating])
+                except Exception as e:
+                    collection.append([deal_name, deal_desc, deal_price, "No reviews yet"])
+                    
         except Exception as e:
             print(f"Error locating the deals: {e}")
 
